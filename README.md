@@ -4,10 +4,10 @@ A Python library to interact with the [Criadex](https://github.com/CriaYU/Criade
 
 ## Getting Started
 
-1. Install the package via pip
+1. Install the package from locally cloned repository
 
 ```shell
-$ pip install git+https://github.com/CriaYU/Criadex.git
+$ pip install --upgrade git+file://c:/users/user/PycharmProjects/criadexsdk 
 ```
 
 2. Make your first query
