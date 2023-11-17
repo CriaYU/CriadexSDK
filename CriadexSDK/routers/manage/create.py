@@ -1,12 +1,15 @@
-from typing import Optional, Literal
+from typing import Optional, Literal, Type
 
 from pydantic import BaseModel
 
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
 
 
+IndexTypes: Type = Literal["DOCUMENT", "QUESTION", "CACHE"]
+
+
 class PartialIndexConfig(BaseModel):
-    type: Literal["DOCUMENT", "QUESTION", "CACHE"]
+    type: IndexTypes
     llm_model_id: int
     embedding_model_id: int
 

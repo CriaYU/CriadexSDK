@@ -11,11 +11,26 @@ from httpx import AsyncClient
 from pydantic import BaseModel
 import urllib.parse
 
+
 class BaseResponse(BaseModel):
     status: int
     message: str
     timestamp: Optional[int] = None
     code: str
+
+    def verify(self) -> "BaseResponse":
+        """Will throw an error if the status is not successful"""
+
+        if self.code != "SUCCESS":
+            raise CriadexError(bad_response=self)
+
+        return self
+
+
+class CriadexError(RuntimeError):
+    """Thrown when """
+    def __init__(self, bad_response: BaseResponse):
+        self.response = self.bad_response = bad_response
 
 
 T = TypeVar('T', bound=BaseResponse)
