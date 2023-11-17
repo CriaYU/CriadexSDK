@@ -28,11 +28,14 @@ class QueryResponse(BaseModel):
     raw: RawChatMessage
 
 
-class QueryModelConfig(BaseModel):
-    history: List[ChatMessage]
+class QueryModelParameters(BaseModel):
     max_tokens: Optional[int] = None
     temperature: Optional[float] = None
     top_p: Optional[float] = None
+
+
+class QueryModelConfig(QueryModelParameters):
+    history: List[ChatMessage]
 
 
 class ModelQueryRoute(Route):
