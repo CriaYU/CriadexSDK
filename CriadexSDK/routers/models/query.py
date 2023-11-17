@@ -9,7 +9,8 @@ from CriadexSDK.core.api.route import Route, BaseResponse, outputs
 class ChatMessage(BaseModel):
     role: Literal["user", "assistant", "system"]
     content: str
-    additional_kwargs: Optional[dict] = dict()
+    additional_kwargs: dict = dict()
+    metadata: dict = dict()
 
 
 class RawChatMessage(BaseModel):
