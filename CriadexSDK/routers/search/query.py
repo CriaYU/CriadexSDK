@@ -11,6 +11,16 @@ class TokenUsage(BaseModel):
     total_tokens: int
 
 
+class Node(BaseModel):
+    metadata: dict
+    text: str
+
+
+class NodeWithScore(BaseModel):
+    node: dict
+    score: float
+
+
 class IndexQueryResponse(BaseModel):
     nodes: List[dict]
     token_usage: List[TokenUsage]
