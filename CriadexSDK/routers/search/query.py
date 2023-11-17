@@ -17,7 +17,7 @@ class Node(BaseModel):
 
 
 class NodeWithScore(BaseModel):
-    node: dict
+    node: Node
     score: float
 
 
