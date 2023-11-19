@@ -12,6 +12,7 @@ class IndexInfo(BaseModel):
     type: int
     llm_model_id: int
     embedding_model_id: int
+    created: str
 
 
 class IndexAboutRoute(Route):

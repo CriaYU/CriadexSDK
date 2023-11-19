@@ -1,18 +1,20 @@
 from typing import Optional, List
 
+from pydantic import BaseModel
+
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
+from CriadexSDK.routers.manage.about import IndexInfo
 
 
-class AuthCheckRoute(Route):
+class IndexAuthListRoute(Route):
 
     class Response(BaseResponse):
-        api_key: Optional[str]
-        master: Optional[bool]
-        authorized: Optional[bool]
+        indexes: List[IndexInfo]
 
     @outputs(Response)
     async def execute(self, api_key: str) -> Optional[dict]:
 
         return await self._get(
-            path=f"/auth/{api_key}/check",
+            path=f"/index_auth/list",
+            params={"api_key": api_key}
         )
