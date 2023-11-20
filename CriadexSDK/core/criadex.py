@@ -8,7 +8,6 @@ from CriadexSDK.routers.content import ContentRouter
 from CriadexSDK.routers.index_auth import IndexAuthRouter
 from CriadexSDK.routers.manage import ManageRouter
 from CriadexSDK.routers.models import ModelsRouter
-from CriadexSDK.routers.search import SearchRouter
 from CriadexSDK.core.schemas import CriadexUnauthorizedError
 
 
@@ -26,7 +25,6 @@ class CriadexSDK:
         # Routers
         self.content: Optional[ContentRouter] = None
         self.manage: Optional[ManageRouter] = None
-        self.search: Optional[SearchRouter] = None
         self.auth: Optional[AuthRouter] = None
         self.index_auth: Optional[IndexAuthRouter] = None
         self.models: Optional[ModelsRouter] = None
@@ -78,7 +76,6 @@ class CriadexSDK:
 
         self.content: ContentRouter = ContentRouter(**router_kwargs)
         self.manage: ManageRouter = ManageRouter(**router_kwargs)
-        self.search: SearchRouter = SearchRouter(**router_kwargs)
         self.auth: AuthRouter = AuthRouter(**router_kwargs)
         self.index_auth: IndexAuthRouter = IndexAuthRouter(**router_kwargs)
         self.models: ModelsRouter = ModelsRouter(**router_kwargs)
