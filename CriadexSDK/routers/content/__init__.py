@@ -2,6 +2,8 @@ from CriadexSDK.routers.content.delete import IndexContentDeleteRoute
 from CriadexSDK.routers.content.list import IndexContentListRoute
 from CriadexSDK.routers.content.update import IndexContentUpdateRoute
 from CriadexSDK.routers.content.upload import IndexContentUploadRoute
+from CriadexSDK.routers.content.search import IndexContentSearchRoute
+
 from CriadexSDK.core.api.router import Router
 
 
@@ -14,6 +16,6 @@ class ContentRouter(Router):
         self.update: IndexContentUpdateRoute = self._create_route(IndexContentUpdateRoute)
         self.delete: IndexContentDeleteRoute = self._create_route(IndexContentDeleteRoute)
         self.list: IndexContentListRoute = self._create_route(IndexContentListRoute)
-
+        self.search: IndexContentSearchRoute = self._create_route(IndexContentSearchRoute)
 
 __all__ = ["ContentRouter"]

@@ -2,7 +2,7 @@ from typing import List, Optional, Literal, Any
 
 from pydantic import BaseModel
 
-from CriadexSDK.routers.search.query import TokenUsage
+from CriadexSDK.routers.content.search import TokenUsage
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
 
 

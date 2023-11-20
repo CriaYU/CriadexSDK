@@ -21,21 +21,21 @@ class NodeWithScore(BaseModel):
     score: float
 
 
-class IndexQueryResponse(BaseModel):
+class IndexSearchResponse(BaseModel):
     nodes: List[NodeWithScore]
     token_usage: List[TokenUsage]
 
 
-class IndexQueryRoute(Route):
+class IndexContentSearchRoute(Route):
 
     class Response(BaseResponse):
-        response: Optional[IndexQueryResponse]
+        response: Optional[IndexSearchResponse]
 
     @outputs(Response)
     async def execute(self, index_name: str, prompt: str, top_k: Optional[int] = None) -> Optional[dict]:
 
         return await self._post(
-            path=f"/criadex/{index_name}/search",
+            path=f"/criadex/{index_name}/content/search",
             json=(
                 {
                     "prompt": prompt,
