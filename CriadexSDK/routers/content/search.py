@@ -32,7 +32,7 @@ class IndexContentSearchRoute(Route):
         response: Optional[IndexSearchResponse]
 
     @outputs(Response)
-    async def execute(self, index_name: str, prompt: str, top_k: Optional[int] = None) -> Optional[dict]:
+    async def execute(self, index_name: str, prompt: str, top_k: int) -> Optional[dict]:
 
         return await self._post(
             path=f"/criadex/{index_name}/content/search",
