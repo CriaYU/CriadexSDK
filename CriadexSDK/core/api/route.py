@@ -102,12 +102,11 @@ class Route:
         return self._api_base + (path if path.startswith("/") else "/" + path)
 
     async def _generic_request(self, http_fn: Callable, path: str, **kwargs) -> Optional[dict]:
-
         return await self.__base_request(
             functools.partial(
                 http_fn,
                 self.__build_url(path),
-                **self.de_pydantic(kwargs)
+                **{**self.de_pydantic(kwargs), **{"timeout": 25.0}}
             )
         )
 
