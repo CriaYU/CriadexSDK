@@ -106,7 +106,7 @@ class Route:
             functools.partial(
                 http_fn,
                 self.__build_url(path),
-                **{**self.de_pydantic(kwargs), **{"timeout": 25.0}}
+                **self.de_pydantic(kwargs)
             )
         )
 

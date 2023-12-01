@@ -3,6 +3,7 @@ from typing import List, Tuple, Type, TypeVar
 from httpx import AsyncClient
 
 from CriadexSDK.core.api.route import Route
+from CriadexSDK.core.network import create_httpx_client
 
 T = TypeVar('T', bound=Route)
 
@@ -16,9 +17,11 @@ class Router:
     ):
 
         self._api_base: str = api_base
-        self._http: AsyncClient = AsyncClient(headers={
-            "x-api-key": api_key
-        })
+        self._http: AsyncClient = create_httpx_client(
+            headers={
+                "x-api-key": api_key
+            }
+        )
 
         pass
 

@@ -38,6 +38,10 @@ async def execute_query():
 asyncio.get_event_loop().run_until_complete(execute_query())
 ```
 
+## Available Configuration
+
+- Set `CRIADEX_SDK_TIMEOUT` to a value like `30.0` to configure timeouts
+
 ## Available Methods
 
 Every endpoint from the Criadex API is implemented.

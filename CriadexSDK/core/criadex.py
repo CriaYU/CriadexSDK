@@ -1,14 +1,14 @@
 from typing import Optional
 
-import httpx
 from httpx import Response
 
+from CriadexSDK.core.network import create_httpx_client
+from CriadexSDK.core.schemas import CriadexUnauthorizedError
 from CriadexSDK.routers.auth import AuthRouter
 from CriadexSDK.routers.content import ContentRouter
 from CriadexSDK.routers.index_auth import IndexAuthRouter
 from CriadexSDK.routers.manage import ManageRouter
 from CriadexSDK.routers.models import ModelsRouter
-from CriadexSDK.core.schemas import CriadexUnauthorizedError
 
 
 class CriadexSDK:
@@ -18,7 +18,6 @@ class CriadexSDK:
     """
 
     def __init__(self, api_base: str):
-
         # Remove trailing slash
         self._api_base: str = (api_base[:-1] if api_base.endswith("/") else api_base)
 
@@ -55,7 +54,7 @@ class CriadexSDK:
 
         """
 
-        async with httpx.AsyncClient() as client:
+        async with create_httpx_client() as client:
             response: Response = await client.get(
                 self._api_base + f"/auth/{api_key}/check",
                 headers={"x-api-key": api_key}
@@ -79,4 +78,3 @@ class CriadexSDK:
         self.auth: AuthRouter = AuthRouter(**router_kwargs)
         self.index_auth: IndexAuthRouter = IndexAuthRouter(**router_kwargs)
         self.models: ModelsRouter = ModelsRouter(**router_kwargs)
-
