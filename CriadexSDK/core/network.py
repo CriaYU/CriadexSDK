@@ -17,8 +17,9 @@ timeout: httpx.Timeout = httpx.Timeout(
 )
 
 
-def create_httpx_client(**kwargs) -> httpx.AsyncClient:
+def create_httpx_client(error_stacktrace: bool, **kwargs) -> httpx.AsyncClient:
     return httpx.AsyncClient(
+        headers={**kwargs.pop("headers", dict()), "x-api-stacktrace": str(error_stacktrace)},
         limits=limits,
         timeout=timeout,
         **kwargs

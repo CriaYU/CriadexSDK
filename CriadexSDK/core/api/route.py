@@ -43,11 +43,13 @@ def reshape(payload: dict, model: Type[T]) -> T:
     try:
         return model(**payload)
     except (ValueError, TypeError):
-        logging.error(traceback.format_exc() + f"\nPayload: {json.dumps(payload)}")
+        # This is thrown in the case of catastrophic error
+        # The payload by definition will not match an expected shape
+        # The best we can do is print the payload & trace so the user knows what's up
         return BaseResponse(
             code="SERIALIZE_ERROR",
             status=500,
-            message=f"Serialization error"
+            message=f"Serialization error! Payload: {payload} | Exception: {traceback.format_exc()}"
         )
 
 

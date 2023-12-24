@@ -2,8 +2,8 @@ from typing import List, Optional, Literal, Any
 
 from pydantic import BaseModel
 
-from CriadexSDK.routers.content.search import TokenUsage
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
+from CriadexSDK.routers.content.search import TokenUsage
 
 
 class ChatMessage(BaseModel):
@@ -34,30 +34,34 @@ class QueryModelParameters(BaseModel):
     top_p: Optional[float] = None
 
 
-class QueryModelConfig(QueryModelParameters):
+class ChatModelConfig(QueryModelParameters):
     history: List[ChatMessage]
 
 
-class ModelQueryRoute(Route):
+class AgentExecution(BaseModel):
+    usage: List[TokenUsage]
 
+
+class ChatResponse(BaseModel):
+    message: ChatMessage
+    raw: RawChatMessage
+
+
+class AgentChatExecution(AgentExecution):
+    chat_response: ChatResponse
+
+
+class AgentChatRoute(Route):
     class Response(BaseResponse):
-        response: Optional[QueryResponse]
+        agent_response: Optional[AgentChatExecution]
 
     @outputs(Response)
     async def execute(
-        self,
-        model_id: int,
-        query_config: QueryModelConfig
+            self,
+            model_id: int,
+            agent_config: ChatModelConfig
     ) -> Optional[dict]:
-
         return await self._post(
-            path=f"/azure/models/{model_id}/query",
-            json=(
-                {
-                    "max_tokens": query_config.max_tokens,
-                    "temperature": query_config.temperature,
-                    "top_p": query_config.top_p,
-                    "history": query_config.history
-                }
-            )
+            path=f"/azure/models/{model_id}/agents/chat",
+            json=agent_config
         )

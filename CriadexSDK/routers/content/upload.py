@@ -1,3 +1,4 @@
+import json
 from typing import Optional, Type, Literal, Callable
 
 from pydantic import BaseModel
@@ -17,24 +18,24 @@ class UploadFile(BaseModel):
 
 
 class IndexContentUploadRoute(Route):
-
     ENDPOINT: str = "upload"
     METHOD: str = "_post"
 
     class Response(BaseResponse):
-        pass
+        token_usage: Optional[int]
 
     @outputs(Response)
     async def execute(
-        self,
-        index_name: str,
-        upload_file: UploadFile
+            self,
+            index_name: str,
+            upload_file: UploadFile,
+            file_metadata: Optional[dict] = None
     ) -> Optional[dict]:
-
-        http_method: Callable = getattr(self, getattr(self, 'METHOD'))
+        http_method: Callable = getattr(self, getattr(self, 'METHOD'))  # Do it this way for inheritance
         endpoint: str = getattr(self, 'ENDPOINT')
 
         return await http_method(
             path=f"/criadex/{index_name}/content/{endpoint}",
-            files={'file': (upload_file.file_name, upload_file.file_bytes, upload_file.file_mimetype)}
+            files={'file': (upload_file.file_name, upload_file.file_bytes, upload_file.file_mimetype)},
+            data={'file_metadata': json.dumps(file_metadata) if file_metadata else None}
         )

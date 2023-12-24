@@ -1,4 +1,4 @@
-from typing import Optional, Any, List
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -13,23 +13,19 @@ class AzureModelPartialConfig(BaseModel):
 
 
 class AzureModelConfig(AzureModelPartialConfig):
-
     api_model: str = "text-embedding-ada-002"
 
 
 class AzureCompleteModelConfig(AzureModelConfig):
-
     id: int
 
 
 class ModelCreateRoute(Route):
-
     class Response(BaseResponse):
         model: Optional[AzureCompleteModelConfig]
 
     @outputs(Response)
     async def execute(self, model_id: int, model_config: AzureModelConfig) -> Optional[dict]:
-
         return await self._post(
             path=f"/azure/models/create",
             json=model_config

@@ -4,7 +4,6 @@ from pydantic import BaseModel
 
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
 
-
 IndexTypes: Type = Literal["DOCUMENT", "QUESTION", "CACHE"]
 
 
@@ -19,13 +18,11 @@ class IndexConfig(PartialIndexConfig):
 
 
 class IndexCreateRoute(Route):
-
     class Response(BaseResponse):
         config: Optional[IndexConfig]
 
     @outputs(Response)
     async def execute(self, index_name: str, index_config: PartialIndexConfig) -> Optional[dict]:
-
         return await self._post(
             path=f"/criadex/{index_name}/create",
             json=index_config

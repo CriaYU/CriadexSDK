@@ -1,6 +1,7 @@
+import asyncio
 from typing import Optional
 
-from httpx import Response
+from httpx import Response, AsyncClient
 
 from CriadexSDK.core.network import create_httpx_client
 from CriadexSDK.core.schemas import CriadexUnauthorizedError
@@ -17,7 +18,15 @@ class CriadexSDK:
 
     """
 
-    def __init__(self, api_base: str):
+    def __init__(self, api_base: str, error_stacktrace: bool = True):
+        """
+        Initialization configuration
+
+        :param api_base: The base API url
+        :param error_stacktrace: Include stacktrace when Criadex has an internal error
+
+        """
+
         # Remove trailing slash
         self._api_base: str = (api_base[:-1] if api_base.endswith("/") else api_base)
 
@@ -27,6 +36,20 @@ class CriadexSDK:
         self.auth: Optional[AuthRouter] = None
         self.index_auth: Optional[IndexAuthRouter] = None
         self.models: Optional[ModelsRouter] = None
+
+        # Client for requesting
+        self._httpx: AsyncClient = create_httpx_client(
+            error_stacktrace=error_stacktrace
+        )
+
+    def __del__(self) -> None:
+        """
+        When the SDK is deleted, gracefully close the async client
+        :return: None
+
+        """
+
+        asyncio.get_running_loop().create_task(self._httpx.aclose())
 
     async def authenticate(self, api_key: str) -> None:
         """
@@ -43,7 +66,7 @@ class CriadexSDK:
         if not is_master:
             raise CriadexUnauthorizedError("You must submit a master api_key to run the Criadex SDK")
 
-        self._include_routers(api_key=api_key)
+        self._include_routers()
 
     async def is_master(self, api_key: str) -> bool:
         """
@@ -54,15 +77,14 @@ class CriadexSDK:
 
         """
 
-        async with create_httpx_client() as client:
-            response: Response = await client.get(
-                self._api_base + f"/auth/{api_key}/check",
-                headers={"x-api-key": api_key}
-            )
+        response: Response = await self._httpx.get(
+            self._api_base + f"/auth/{api_key}/check",
+            headers={"x-api-key": api_key}
+        )
 
-            return response.status_code != 401
+        return response.status_code != 401
 
-    def _include_routers(self, api_key: str) -> None:
+    def _include_routers(self) -> None:
         """
         Set up the CriadexSDK routers with a validated api key
 
@@ -71,7 +93,7 @@ class CriadexSDK:
 
         """
 
-        router_kwargs: dict = {"api_base": self._api_base, "api_key": api_key}
+        router_kwargs: dict = {"api_base": self._api_base, "http": self._httpx}
 
         self.content: ContentRouter = ContentRouter(**router_kwargs)
         self.manage: ManageRouter = ManageRouter(**router_kwargs)

@@ -26,20 +26,25 @@ class IndexSearchResponse(BaseModel):
     token_usage: List[TokenUsage]
 
 
-class IndexContentSearchRoute(Route):
+class Filter(BaseModel):
+    should: Optional[dict] = None
+    must: Optional[dict] = None
+    must_not: Optional[dict] = None
 
+
+class SearchIndexConfig(BaseModel):
+    prompt: str
+    top_k: int
+    search_filter: Optional[Filter] = None
+
+
+class IndexContentSearchRoute(Route):
     class Response(BaseResponse):
         response: Optional[IndexSearchResponse]
 
     @outputs(Response)
-    async def execute(self, index_name: str, prompt: str, top_k: int) -> Optional[dict]:
-
+    async def execute(self, index_name: str, search_config: SearchIndexConfig) -> Optional[dict]:
         return await self._post(
             path=f"/criadex/{index_name}/content/search",
-            json=(
-                {
-                    "prompt": prompt,
-                    "top_k": top_k
-                }
-            )
+            json=search_config
         )
