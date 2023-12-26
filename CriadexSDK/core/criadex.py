@@ -5,7 +5,7 @@ from httpx import Response, AsyncClient
 
 from CriadexSDK.core.network import create_httpx_client
 from CriadexSDK.core.schemas import CriadexUnauthorizedError
-from CriadexSDK.routers.agent import AgentRouter
+from CriadexSDK.routers.agents import AgentRouter
 from CriadexSDK.routers.auth import AuthRouter
 from CriadexSDK.routers.content import ContentRouter
 from CriadexSDK.routers.index_auth import IndexAuthRouter

@@ -1,9 +1,9 @@
 from httpx import AsyncClient
 
 from CriadexSDK.core.api.router import Router
-from CriadexSDK.routers.agent.chat import AgentChatRoute
-from CriadexSDK.routers.agent.intents import AgentIntentsRoute
-from CriadexSDK.routers.agent.lang import AgentLanguageRoute
+from CriadexSDK.routers.agents.chat import AgentChatRoute
+from CriadexSDK.routers.agents.intents import AgentIntentsRoute
+from CriadexSDK.routers.agents.lang import AgentLanguageRoute
 
 
 class AgentRouter(Router):

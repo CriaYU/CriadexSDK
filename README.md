@@ -41,6 +41,7 @@ asyncio.get_event_loop().run_until_complete(execute_query())
 ## Available Configuration
 
 - Set `CRIADEX_SDK_TIMEOUT` to a value like `30.0` to configure timeouts
+- Set `error_stacktrace` to `True` or `False` to configure seeing Criadex stacktraces for errors 
 
 ## Available Methods
 
@@ -63,7 +64,12 @@ Every endpoint from the Criadex API is implemented.
 - `client.models.create`
 - `client.models.delete`
 - `client.models.about`
-- `client.models.query`
+
+### Model Agents
+
+- `client.agents.chat`
+- `client.agents.intents`
+- `client.agents.language`
 
 ### Index Management
 

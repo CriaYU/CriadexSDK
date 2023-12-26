@@ -3,7 +3,7 @@ from typing import List, Optional, Union
 from pydantic import BaseModel
 
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
-from CriadexSDK.routers.agent.chat import AgentExecution
+from CriadexSDK.routers.agents.chat import AgentExecution
 
 
 class AgentLanguageExecution(AgentExecution):
