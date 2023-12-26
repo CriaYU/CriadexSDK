@@ -27,9 +27,9 @@ class IndexSearchResponse(BaseModel):
 
 
 class Filter(BaseModel):
-    should: Optional[dict] = None
-    must: Optional[dict] = None
-    must_not: Optional[dict] = None
+    should: Optional[List[dict]] = None
+    must: Optional[List[dict]] = None
+    must_not: Optional[List[dict]] = None
 
 
 class SearchIndexConfig(BaseModel):
