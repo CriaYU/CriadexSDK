@@ -41,10 +41,15 @@ class SearchIndexConfig(BaseModel):
 class IndexContentSearchRoute(Route):
     class Response(BaseResponse):
         response: Optional[IndexSearchResponse]
+        index_name: str
 
     @outputs(Response)
     async def execute(self, index_name: str, search_config: SearchIndexConfig) -> Optional[dict]:
-        return await self._post(
+
+        response: dict = await self._post(
             path=f"/criadex/{index_name}/content/search",
             json=search_config
         )
+
+        response["index_name"] = index_name
+        return response
