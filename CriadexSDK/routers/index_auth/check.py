@@ -6,6 +6,7 @@ from CriadexSDK.core.api.route import Route, BaseResponse, outputs
 class IndexAuthCheckRoute(Route):
     class Response(BaseResponse):
         authorized: Optional[bool]
+        master: Optional[bool]
 
     @outputs(Response)
     async def execute(self, index_name: str, api_key: str) -> Optional[dict]:
