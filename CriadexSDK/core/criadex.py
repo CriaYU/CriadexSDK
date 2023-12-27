@@ -68,6 +68,7 @@ class CriadexSDK:
         if not is_master:
             raise CriadexUnauthorizedError("You must submit a master api_key to run the Criadex SDK")
 
+        self._httpx.headers["x-api-key"] = api_key
         self._include_routers()
 
     async def is_master(self, api_key: str) -> bool:
