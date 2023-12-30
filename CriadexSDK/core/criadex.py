@@ -51,7 +51,10 @@ class CriadexSDK:
 
         """
 
-        asyncio.get_running_loop().create_task(self._httpx.aclose())
+        try:
+            asyncio.get_running_loop().create_task(self._httpx.aclose())
+        except RuntimeError:
+            pass
 
     async def authenticate(self, api_key: str) -> None:
         """
