@@ -1,9 +1,9 @@
 from httpx import AsyncClient
 
 from CriadexSDK.core.api.router import Router
-from CriadexSDK.routers.manage.about import IndexAboutRoute
-from CriadexSDK.routers.manage.create import IndexCreateRoute
-from CriadexSDK.routers.manage.delete import IndexDeleteRoute
+from CriadexSDK.routers.manage.about import GroupAboutRoute
+from CriadexSDK.routers.manage.create import GroupCreateRoute
+from CriadexSDK.routers.manage.delete import GroupDeleteRoute
 
 
 class ManageRouter(Router):
@@ -11,9 +11,9 @@ class ManageRouter(Router):
     def __init__(self, api_base: str, http: AsyncClient):
         super().__init__(api_base, http)
 
-        self.about: IndexAboutRoute = self._create_route(IndexAboutRoute)
-        self.delete: IndexDeleteRoute = self._create_route(IndexDeleteRoute)
-        self.create: IndexCreateRoute = self._create_route(IndexCreateRoute)
+        self.about: GroupAboutRoute = self._create_route(GroupAboutRoute)
+        self.delete: GroupDeleteRoute = self._create_route(GroupDeleteRoute)
+        self.create: GroupCreateRoute = self._create_route(GroupCreateRoute)
 
 
 __all__ = ["ManageRouter"]

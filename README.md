@@ -15,7 +15,7 @@ $ pip install --upgrade git+file://c:/users/user/PycharmProjects/criadexsdk
 ```python
 import asyncio
 from CriadexSDK import CriadexSDK
-from CriadexSDK.routers.content import IndexContentSearchRoute
+from CriadexSDK.routers.content import GroupContentSearchRoute
 
 # Create client
 criadex: CriadexSDK = CriadexSDK(api_base="https://api-base.com/")  # <-- Trailing slash doesn't matter
@@ -25,8 +25,8 @@ criadex: CriadexSDK = CriadexSDK(api_base="https://api-base.com/")  # <-- Traili
 async def execute_query():
     await criadex.authenticate(api_key="MASTER_API_KEY_HERE")
 
-    response: IndexContentSearchRoute.Response = await criadex.content.search(
-        index_name="index_name",
+    response: GroupContentSearchRoute.Response = await criadex.content.search(
+        group_name="group_name",
         prompt="What day is Assignment 3 due?",
         top_k=5
     )
@@ -53,7 +53,7 @@ Every endpoint from the Criadex API is implemented.
 - `client.auth.delete`
 - `client.auth.check`
 
-### Index Authorization
+### Group Authorization
 
 - `client.auth.create`
 - `client.auth.delete`
@@ -71,7 +71,7 @@ Every endpoint from the Criadex API is implemented.
 - `client.agents.intents`
 - `client.agents.language`
 
-### Index Management
+### Group Management
 
 - `client.manage.create`
 - `client.manage.delete`

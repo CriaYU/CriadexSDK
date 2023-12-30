@@ -17,7 +17,7 @@ class UploadFile(BaseModel):
     file_mimetype: AcceptedContentMimeTypes
 
 
-class IndexContentUploadRoute(Route):
+class GroupContentUploadRoute(Route):
     ENDPOINT: str = "upload"
     METHOD: str = "_post"
 
@@ -27,7 +27,7 @@ class IndexContentUploadRoute(Route):
     @outputs(Response)
     async def execute(
             self,
-            index_name: str,
+            group_name: str,
             upload_file: UploadFile,
             file_metadata: Optional[dict] = None
     ) -> Optional[dict]:
@@ -35,7 +35,7 @@ class IndexContentUploadRoute(Route):
         endpoint: str = getattr(self, 'ENDPOINT')
 
         return await http_method(
-            path=f"/criadex/{index_name}/content/{endpoint}",
+            path=f"/criadex/{group_name}/content/{endpoint}",
             files={'file': (upload_file.file_name, upload_file.file_bytes, upload_file.file_mimetype)},
             data={'file_metadata': json.dumps(file_metadata) if file_metadata else None}
         )

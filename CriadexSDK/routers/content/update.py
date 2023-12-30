@@ -1,6 +1,6 @@
-from CriadexSDK.routers.content.upload import IndexContentUploadRoute
+from CriadexSDK.routers.content.upload import GroupContentUploadRoute
 
 
-class IndexContentUpdateRoute(IndexContentUploadRoute):
+class GroupContentUpdateRoute(GroupContentUploadRoute):
     ENDPOINT: str = "update"
     METHOD: str = "_patch"

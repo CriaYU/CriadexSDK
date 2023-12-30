@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
 
 
-class IndexInfo(BaseModel):
+class GroupInfo(BaseModel):
     id: int
     name: str
     type: int
@@ -14,12 +14,12 @@ class IndexInfo(BaseModel):
     created: str
 
 
-class IndexAboutRoute(Route):
+class GroupAboutRoute(Route):
     class Response(BaseResponse):
-        info: Optional[IndexInfo]
+        info: Optional[GroupInfo]
 
     @outputs(Response)
-    async def execute(self, index_name: str) -> Optional[dict]:
+    async def execute(self, group_name: str) -> Optional[dict]:
         return await self._get(
-            path=f"/criadex/{index_name}/about"
+            path=f"/criadex/{group_name}/about"
         )

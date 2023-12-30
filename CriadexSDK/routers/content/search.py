@@ -21,7 +21,7 @@ class NodeWithScore(BaseModel):
     score: float
 
 
-class IndexSearchResponse(BaseModel):
+class GroupSearchResponse(BaseModel):
     nodes: List[NodeWithScore]
     token_usage: List[TokenUsage]
 
@@ -32,24 +32,22 @@ class Filter(BaseModel):
     must_not: Optional[List[dict]] = None
 
 
-class SearchIndexConfig(BaseModel):
+class SearchGroupConfig(BaseModel):
     prompt: str
     top_k: int
     search_filter: Optional[Filter] = None
 
 
-class IndexContentSearchRoute(Route):
+class GroupContentSearchRoute(Route):
     class Response(BaseResponse):
-        response: Optional[IndexSearchResponse]
-        index_name: str
+        response: Optional[GroupSearchResponse]
+        group_name: str
 
     @outputs(Response)
-    async def execute(self, index_name: str, search_config: SearchIndexConfig) -> Optional[dict]:
-
+    async def execute(self, group_name: str, search_config: SearchGroupConfig) -> Optional[dict]:
         response: dict = await self._post(
-            path=f"/criadex/{index_name}/content/search",
+            path=f"/criadex/{group_name}/content/search",
             json=search_config
         )
 
-        response["index_name"] = index_name
-        return response
+        return {"group_name": group_name, **response}
