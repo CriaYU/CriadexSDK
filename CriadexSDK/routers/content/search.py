@@ -5,25 +5,33 @@ from pydantic import BaseModel
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
 
 
-class TokenUsage(BaseModel):
+class CompletionUsage(BaseModel):
     completion_tokens: int
     prompt_tokens: int
     total_tokens: int
 
 
-class Node(BaseModel):
+class BaseNode(BaseModel):
     metadata: dict
+    excluded_embed_metadata_keys: List[str] = []
+    excluded_llm_metadata_keys: List[str] = []
+    class_name: str
+
+
+class TextNode(BaseNode):
     text: str
+    text_template: str
+    metadata_template: str
 
 
 class NodeWithScore(BaseModel):
-    node: Node
+    node: TextNode
     score: float
 
 
 class GroupSearchResponse(BaseModel):
     nodes: List[NodeWithScore]
-    token_usage: List[TokenUsage]
+    token_usage: List[CompletionUsage]
 
 
 class Filter(BaseModel):
@@ -35,6 +43,7 @@ class Filter(BaseModel):
 class SearchGroupConfig(BaseModel):
     prompt: str
     top_k: int
+    min_score: float = 0.5
     search_filter: Optional[Filter] = None
 
 

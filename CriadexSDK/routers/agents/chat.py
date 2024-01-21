@@ -3,7 +3,7 @@ from typing import List, Optional, Literal, Any
 from pydantic import BaseModel
 
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
-from CriadexSDK.routers.content.search import TokenUsage
+from CriadexSDK.routers.content.search import CompletionUsage
 
 
 class ChatMessage(BaseModel):
@@ -13,19 +13,19 @@ class ChatMessage(BaseModel):
     metadata: dict = dict()
 
 
-class RawChatMessage(BaseModel):
+class ChatMessageRaw(BaseModel):
     id: str
     choices: List[dict]
     created: int
     model: str
     object: str
     system_fingerprint: Any
-    usage: TokenUsage
+    usage: CompletionUsage
 
 
-class QueryResponse(BaseModel):
+class ChatResponse(BaseModel):
     message: ChatMessage
-    raw: RawChatMessage
+    raw: ChatMessageRaw
 
 
 class QueryModelParameters(BaseModel):
@@ -34,32 +34,31 @@ class QueryModelParameters(BaseModel):
     top_p: Optional[float] = None
 
 
-class ChatModelConfig(QueryModelParameters):
+class ChatAgentConfig(QueryModelParameters):
     history: List[ChatMessage]
 
 
-class AgentExecution(BaseModel):
-    usage: List[TokenUsage]
+class BaseAgentResponse(BaseModel):
+    message: Optional[str] = None
 
 
-class ChatResponse(BaseModel):
-    message: ChatMessage
-    raw: RawChatMessage
+class LLMAgentResponse(BaseAgentResponse):
+    usage: List[CompletionUsage]
 
 
-class AgentChatExecution(AgentExecution):
+class ChatAgentResponse(LLMAgentResponse):
     chat_response: ChatResponse
 
 
 class AgentChatRoute(Route):
     class Response(BaseResponse):
-        agent_response: Optional[AgentChatExecution]
+        agent_response: Optional[ChatAgentResponse]
 
     @outputs(Response)
     async def execute(
             self,
             model_id: int,
-            agent_config: ChatModelConfig
+            agent_config: ChatAgentConfig
     ) -> Optional[dict]:
         return await self._post(
             path=f"/azure/models/{model_id}/agents/chat",
