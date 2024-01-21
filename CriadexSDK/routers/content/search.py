@@ -25,12 +25,16 @@ class TextNode(BaseNode):
 
 
 class NodeWithScore(BaseModel):
-    node: TextNode
+    node: BaseNode
     score: float
 
 
+class TextNodeWithScore(NodeWithScore):
+    node: TextNode
+
+
 class GroupSearchResponse(BaseModel):
-    nodes: List[NodeWithScore]
+    nodes: List[TextNodeWithScore]
     token_usage: List[CompletionUsage]
 
 

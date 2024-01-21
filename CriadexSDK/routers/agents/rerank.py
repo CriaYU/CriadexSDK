@@ -2,16 +2,16 @@ from typing import Optional, List
 
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
 from CriadexSDK.routers.agents.chat import LLMAgentResponse, QueryModelParameters
-from CriadexSDK.routers.content.search import TextNode, NodeWithScore
+from CriadexSDK.routers.content.search import TextNode, TextNodeWithScore
 
 
 class RerankAgentResponse(LLMAgentResponse):
-    ranked_nodes: List[NodeWithScore] = []
+    ranked_nodes: List[TextNodeWithScore] = []
 
 
 class RerankAgentConfig(QueryModelParameters):
     prompt: str
-    nodes: List[TextNode]
+    nodes: List[TextNodeWithScore]
 
 
 class AgentRerankRoute(Route):
