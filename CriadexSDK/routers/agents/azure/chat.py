@@ -29,7 +29,7 @@ class ChatResponse(BaseModel):
 
 
 class QueryModelParameters(BaseModel):
-    max_tokens: Optional[int] = None
+    max_reply_tokens: Optional[int] = None
     temperature: Optional[float] = None
     top_p: Optional[float] = None
 

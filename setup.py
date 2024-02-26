@@ -3,7 +3,7 @@ import setuptools
 setuptools.setup(
     name="CriadexSDK",
     packages=setuptools.find_packages(),
-    version="1.1.3-post1",
+    version="1.1.3-post2",
     description="Criadex SDK Client",
     author="Isaac Kogan",
     author_email="koganisa@yorku.ca",
