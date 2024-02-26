@@ -11,6 +11,7 @@ class PartialGroupConfig(BaseModel):
     type: IndexTypes
     llm_model_id: int
     embedding_model_id: int
+    rerank_model_id: int
 
 
 class GroupConfig(PartialGroupConfig):
@@ -24,6 +25,6 @@ class GroupCreateRoute(Route):
     @outputs(Response)
     async def execute(self, group_name: str, group_config: PartialGroupConfig) -> Optional[dict]:
         return await self._post(
-            path=f"/criadex/{group_name}/create",
+            path=f"/groups/{group_name}/create",
             json=group_config
         )

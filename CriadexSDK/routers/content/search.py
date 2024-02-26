@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
 
@@ -35,7 +35,7 @@ class TextNodeWithScore(NodeWithScore):
 
 class GroupSearchResponse(BaseModel):
     nodes: List[TextNodeWithScore]
-    token_usage: List[CompletionUsage]
+    search_units: Optional[int] = None
 
 
 class Filter(BaseModel):
@@ -46,8 +46,14 @@ class Filter(BaseModel):
 
 class SearchGroupConfig(BaseModel):
     prompt: str
-    top_k: int
-    min_score: float = 0.5
+
+    top_k: Optional[int] = Field(default=None, ge=1, le=10)
+    min_k: float = Field(default=0.0, ge=0.0, le=1.0)
+
+    top_n: Optional[int] = Field(default=None, ge=1, le=10)
+    min_n: float = Field(default=0.0, ge=0.0, le=1.0)
+
+    rerank_enabled: bool = True
     search_filter: Optional[Filter] = None
 
 
@@ -59,7 +65,7 @@ class GroupContentSearchRoute(Route):
     @outputs(Response)
     async def execute(self, group_name: str, search_config: SearchGroupConfig) -> Optional[dict]:
         response: dict = await self._post(
-            path=f"/criadex/{group_name}/content/search",
+            path=f"/groups/{group_name}/content/search",
             json=search_config
         )
 

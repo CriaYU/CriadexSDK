@@ -35,7 +35,7 @@ class GroupContentUploadRoute(Route):
         endpoint: str = getattr(self, 'ENDPOINT')
 
         return await http_method(
-            path=f"/criadex/{group_name}/content/{endpoint}",
+            path=f"/groups/{group_name}/content/{endpoint}",
             files={'file': (upload_file.file_name, upload_file.file_bytes, upload_file.file_mimetype)},
             data={'file_metadata': json.dumps(file_metadata) if file_metadata else None}
         )

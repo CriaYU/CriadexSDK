@@ -1,14 +1,14 @@
-from typing import Optional, List
+from typing import Optional
 
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
 
 
-class GroupContentListRoute(Route):
+class GroupDeleteRoute(Route):
     class Response(BaseResponse):
-        files: List[str]
+        pass
 
     @outputs(Response)
     async def execute(self, group_name: str) -> Optional[dict]:
-        return await self._get(
-            path=f"/groups/{group_name}/content/list"
+        return await self._delete(
+            path=f"/groups/{group_name}/delete"
         )

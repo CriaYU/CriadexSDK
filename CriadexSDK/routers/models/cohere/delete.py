@@ -10,5 +10,5 @@ class ModelDeleteRoute(Route):
     @outputs(Response)
     async def execute(self, model_id: int) -> Optional[dict]:
         return await self._delete(
-            path=f"/azure/models/{model_id}/delete"
+            path=f"/models/cohere/{model_id}/delete"
         )

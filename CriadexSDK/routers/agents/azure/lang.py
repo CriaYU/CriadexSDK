@@ -1,9 +1,9 @@
-from typing import Optional, Union
+from typing import Optional
 
 from pydantic import BaseModel
 
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
-from CriadexSDK.routers.agents.chat import BaseAgentResponse
+from CriadexSDK.routers.agents.azure.chat import BaseAgentResponse
 
 
 class LanguageAgentResponse(BaseAgentResponse):

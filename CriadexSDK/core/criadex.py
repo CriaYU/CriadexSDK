@@ -5,11 +5,11 @@ from httpx import Response, AsyncClient
 
 from CriadexSDK.core.network import create_httpx_client
 from CriadexSDK.core.schemas import CriadexUnauthorizedError
-from CriadexSDK.routers.agents import AgentRouter
+from CriadexSDK.routers.agents import AgentsRouter
 from CriadexSDK.routers.auth import AuthRouter
 from CriadexSDK.routers.content import ContentRouter
 from CriadexSDK.routers.group_auth import GroupAuthRouter
-from CriadexSDK.routers.manage import ManageRouter
+from CriadexSDK.routers.groups import GroupsRouter
 from CriadexSDK.routers.models import ModelsRouter
 
 
@@ -33,11 +33,11 @@ class CriadexSDK:
 
         # Routers
         self.content: Optional[ContentRouter] = None
-        self.manage: Optional[ManageRouter] = None
+        self.manage: Optional[GroupsRouter] = None
         self.auth: Optional[AuthRouter] = None
         self.group_auth: Optional[GroupAuthRouter] = None
         self.models: Optional[ModelsRouter] = None
-        self.agents: Optional[AgentRouter] = None
+        self.agents: Optional[AgentsRouter] = None
 
         # Client for requesting
         self._httpx: AsyncClient = create_httpx_client(
@@ -102,8 +102,8 @@ class CriadexSDK:
         router_kwargs: dict = {"api_base": self._api_base, "http": self._httpx}
 
         self.content: ContentRouter = ContentRouter(**router_kwargs)
-        self.manage: ManageRouter = ManageRouter(**router_kwargs)
+        self.manage: GroupsRouter = GroupsRouter(**router_kwargs)
         self.auth: AuthRouter = AuthRouter(**router_kwargs)
         self.group_auth: GroupAuthRouter = GroupAuthRouter(**router_kwargs)
         self.models: ModelsRouter = ModelsRouter(**router_kwargs)
-        self.agents: AgentRouter = AgentRouter(**router_kwargs)
+        self.agents: AgentsRouter = AgentsRouter(**router_kwargs)

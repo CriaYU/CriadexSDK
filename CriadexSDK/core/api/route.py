@@ -1,15 +1,13 @@
 import functools
-import json
 import logging
 import traceback
 from abc import abstractmethod
-from typing import Optional, Callable, Any, Coroutine, Awaitable, Type, Literal, Union, TypeVar
 from functools import wraps
+from typing import Optional, Callable, Any, Awaitable, Type, TypeVar
 
 import httpx
 from httpx import AsyncClient
-from pydantic import BaseModel
-import urllib.parse
+from pydantic import BaseModel, Field
 
 
 class BaseResponse(BaseModel):
@@ -17,6 +15,25 @@ class BaseResponse(BaseModel):
     message: str
     timestamp: Optional[int] = None
     code: str
+    error: Optional[str] = Field(default=None, hidden=True)
+
+    def model_dump(self, **kwargs):
+        data: dict = super().model_dump(**kwargs)
+
+        if data["error"] is None:
+            del data["error"]
+
+        return data
+
+    class Config:
+        @staticmethod
+        def schema_extra(schema: dict, _):
+            """Via https://github.com/tiangolo/fastapi/issues/1378"""
+            props = {}
+            for k, v in schema.get('properties', {}).items():
+                if not v.get("hidden", False):
+                    props[k] = v
+            schema["properties"] = props
 
     def verify(self) -> "BaseResponse":
         """Will throw an error if the status is not successful"""
@@ -29,6 +46,7 @@ class BaseResponse(BaseModel):
 
 class CriadexError(RuntimeError):
     """Thrown when """
+
     def __init__(self, bad_response: BaseResponse):
         self.response = self.bad_response = bad_response
 
@@ -37,7 +55,6 @@ T = TypeVar('T', bound=BaseResponse)
 
 
 def reshape(payload: dict, model: Type[T]) -> T:
-
     if not issubclass(model, BaseResponse):
         raise ValueError("Model must subclass the base response type.")
     try:
@@ -54,9 +71,7 @@ def reshape(payload: dict, model: Type[T]) -> T:
 
 
 def outputs(model: Type[T]) -> Callable[[Callable], Callable[..., Awaitable[T]]]:
-
     def decorator(function: Callable[..., Awaitable[T]]) -> Callable:
-
         @wraps(function)
         async def wrapper(self, *args, **kwargs) -> T:
             result: Optional[dict] = await function(self, *args, **kwargs)
@@ -74,9 +89,9 @@ def outputs(model: Type[T]) -> Callable[[Callable], Callable[..., Awaitable[T]]]
 class Route:
 
     def __init__(
-        self,
-        http: AsyncClient,
-        api_base: str
+            self,
+            http: AsyncClient,
+            api_base: str
     ):
         self._http: AsyncClient = http
         self._api_base: str = api_base
@@ -142,4 +157,3 @@ class Route:
                 obj[k] = v.model_dump()
 
         return obj
-

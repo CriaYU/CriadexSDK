@@ -1,16 +1,11 @@
 from typing import Optional
 
-from pydantic import BaseModel
-
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
+from CriadexSDK.routers.groups.create import GroupConfig
 
 
-class GroupInfo(BaseModel):
+class GroupInfo(GroupConfig):
     id: int
-    name: str
-    type: int
-    llm_model_id: int
-    embedding_model_id: int
     created: str
 
 
@@ -21,5 +16,5 @@ class GroupAboutRoute(Route):
     @outputs(Response)
     async def execute(self, group_name: str) -> Optional[dict]:
         return await self._get(
-            path=f"/criadex/{group_name}/about"
+            path=f"/groups/{group_name}/about"
         )
