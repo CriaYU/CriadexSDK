@@ -1,7 +1,7 @@
 from typing import Optional, List
 
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
-from CriadexSDK.routers.manage.about import GroupInfo
+from CriadexSDK.routers.groups.about import GroupInfo
 
 
 class GroupAuthListRoute(Route):
