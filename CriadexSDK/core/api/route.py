@@ -27,7 +27,7 @@ class BaseResponse(BaseModel):
 
     class Config:
         @staticmethod
-        def schema_extra(schema: dict, _):
+        def json_schema_extra(schema: dict, _):
             """Via https://github.com/tiangolo/fastapi/issues/1378"""
             props = {}
             for k, v in schema.get('properties', {}).items():
