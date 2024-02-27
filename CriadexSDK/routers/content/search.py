@@ -36,6 +36,7 @@ class TextNodeWithScore(NodeWithScore):
 class GroupSearchResponse(BaseModel):
     nodes: List[TextNodeWithScore]
     search_units: Optional[int] = None
+    metadata: dict = {}
 
 
 class Filter(BaseModel):
