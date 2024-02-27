@@ -35,6 +35,6 @@ class AgentIntentsRoute(Route):
             agent_config: IntentsAgentConfig
     ) -> Optional[dict]:
         return await self._post(
-            path=f"/azure/models/{model_id}/agents/intents",
+            path=f"/models/azure/{model_id}/agents/intents",
             json=agent_config
         )

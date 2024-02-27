@@ -25,6 +25,6 @@ class AgentLanguageRoute(Route):
             agent_config: LanguageAgentConfig
     ) -> Optional[dict]:
         return await self._post(
-            path=f"/azure/models/{model_id}/agents/language",
+            path=f"/models/azure/{model_id}/agents/language",
             json=agent_config
         )

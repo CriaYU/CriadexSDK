@@ -61,6 +61,6 @@ class AgentChatRoute(Route):
             agent_config: ChatAgentConfig
     ) -> Optional[dict]:
         return await self._post(
-            path=f"/azure/models/{model_id}/agents/chat",
+            path=f"/models/azure/{model_id}/agents/chat",
             json=agent_config
         )
