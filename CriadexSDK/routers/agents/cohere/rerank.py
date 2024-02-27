@@ -35,3 +35,4 @@ class AgentRerankRoute(Route):
             path=f"/models/cohere/{model_id}/agents/rerank",
             json=agent_config
         )
+

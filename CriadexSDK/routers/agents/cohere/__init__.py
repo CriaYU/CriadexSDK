@@ -12,4 +12,4 @@ class CohereAgentsRouter(Router):
         self.rerank: AgentRerankRoute = self._create_route(AgentRerankRoute)
 
 
-__all__ = ["AgentRouter"]
+__all__ = ["CohereAgentsRouter"]
