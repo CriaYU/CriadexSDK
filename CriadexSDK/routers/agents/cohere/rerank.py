@@ -32,6 +32,6 @@ class AgentRerankRoute(Route):
             agent_config: RerankAgentConfig
     ) -> Optional[dict]:
         return await self._post(
-            path=f"/azure/models/{model_id}/agents/rerank",
+            path=f"/cohere/models/{model_id}/agents/rerank",
             json=agent_config
         )
