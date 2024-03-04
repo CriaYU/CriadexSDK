@@ -1,20 +1,15 @@
 import json
-from typing import Optional, Type, Literal, Callable
+from typing import Optional, Callable
 
 from pydantic import BaseModel
 
 from CriadexSDK.core.api.route import Route, BaseResponse, outputs
 
-AcceptedContentMimeTypes: Type = Literal[
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "application/json"
-]
-
 
 class UploadFile(BaseModel):
     file_name: str
     file_bytes: bytes
-    file_mimetype: AcceptedContentMimeTypes
+    file_mimetype: str
 
 
 class GroupContentUploadRoute(Route):
