@@ -10,7 +10,7 @@ limits: httpx.Limits = httpx.Limits(
 
 
 def create_httpx_client(error_stacktrace: bool, **kwargs) -> httpx.AsyncClient:
-    _io_timeout = float(os.environ.get("CRIADEX_SDK_IO_TIMEOUT", 60.0))
+    _io_timeout = float(os.environ.get("CRIADEX_SDK_IO_TIMEOUT", 120.0))
     _connect_timeout = float(os.environ.get("CRIADEX_SDK_CONNECT_TIMEOUT", 10.0))
 
     timeout: httpx.Timeout = httpx.Timeout(
