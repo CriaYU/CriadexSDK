@@ -56,6 +56,7 @@ class SearchGroupConfig(BaseModel):
 
     rerank_enabled: bool = True
     search_filter: Optional[Filter] = None
+    extra_groups: Optional[List[str]] = None
 
 
 class GroupContentSearchRoute(Route):

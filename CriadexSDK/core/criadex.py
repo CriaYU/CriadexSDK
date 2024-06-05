@@ -94,7 +94,6 @@ class CriadexSDK:
         """
         Set up the CriadexSDK routers with a validated api key
 
-        :param api_key: The api key
         :return: None
 
         """
